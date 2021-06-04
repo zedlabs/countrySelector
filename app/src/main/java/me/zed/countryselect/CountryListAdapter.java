@@ -19,6 +19,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     public List<Result> localDataSet;
     private OnRadioClickListener radioClickListener = null;
+    public String currentCountry;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
@@ -33,8 +34,9 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
         }
     }
 
-    public CountryListAdapter(List<Result> dataSet) {
+    public CountryListAdapter(List<Result> dataSet, String currentCountry) {
         localDataSet = dataSet;
+        this.currentCountry = currentCountry;
     }
 
     @Override
@@ -50,6 +52,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
         String name = localDataSet.get(position).getName();
         String url = getUrlFor(localDataSet.get(position).getCode());
         viewHolder.textView.setText(name);
+        viewHolder.radioButton.setChecked(name.equals(currentCountry));
         Glide.with(viewHolder.itemView.getContext())
                 .load(url)
                 .transition(DrawableTransitionOptions.withCrossFade(300))

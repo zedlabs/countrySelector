@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
 import java.util.ArrayList;
 
 public class CountrySelectFragment extends BottomSheetDialogFragment {
@@ -27,19 +25,22 @@ public class CountrySelectFragment extends BottomSheetDialogFragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_country_select, container, false);
 
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String nameInit  = sharedPref.getString(getString(R.string.country_key), "India");
+
         vm = new ViewModelProvider(this).get(MainViewModel.class);
         pb = root.findViewById(R.id.progressBar);
         mRecyclerView = root.findViewById(R.id.recyclerView);
-        mAdapter = new CountryListAdapter(new ArrayList<>());
+        mAdapter = new CountryListAdapter(new ArrayList<>(), nameInit);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         mAdapter.addRadioClickListener((String name, String url) -> {
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(getString(R.string.country_key), name);
             editor.putString(getString(R.string.country_image_url_key), url);
             editor.apply();
+            mAdapter.currentCountry = name;
             getParentFragmentManager().popBackStack();
         });
 
