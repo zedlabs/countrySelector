@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">countrySelect</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="country_key">currentCountry</string>
+    <string name="country_image_url_key">currentCountryImageUrl</string>
+    <string name="indian_flag">https://www.countryflags.io/IN/flat/32.png</string>
+</resources>
